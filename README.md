@@ -1,4 +1,4 @@
-## Envirenments:
+## Environments:
 
     node, electron, webpack
     Mac:
