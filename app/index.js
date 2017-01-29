@@ -1,30 +1,66 @@
+const {setBasedir} = require('sock-ipc')
+
+// let userdir = app.getPath('userData')
+// console.log('UserData Dir: ', userdir);
+// setBasedir(path.join(userdir))
+
+setBasedir('/Users/daniel/Documents/tempdevice')
+
 const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
 const UUID = require('uuid/v4')
 const os = require('os')
+const {devicesManager} = require('./server')
+
+
 
 const AppHelper = require('./app')
-const {Device, DeviceManager} = require('./device')
-const Sock = require('./sock')
+// const {Device, DeviceManager} = require('./device')
+// const Sock = require('./sock')
 
-let deviceManager = new DeviceManager()
+// let deviceManager = new DeviceManager()
 let appHelper = new AppHelper()
-let sock = new Sock(deviceManager)
-sock.listen()
+// let sock = new Sock(deviceManager)
+// sock.listen()
 
 app.on('ready', () => {
   let win = appHelper.createMainWindow() // new BrowserWindow({width: 800, height: 600})
 
-  deviceManager.on('add-device', function(device) {
-    win.webContents.send('add-device', device)
-  })
-  deviceManager.on('remove-device', function(device) {
-    win.webContents.send('remove-device', device)
-  })
+  // deviceManager.on('add-device', function(device) {
+  //   win.webContents.send('add-device', device)
+  // })
+  // deviceManager.on('remove-device', function(device) {
+  //   win.webContents.send('remove-device', device)
+  // })
   win.webContents.on('did-finish-load', function() {
-    win.webContents.send('system-info', getSystemInfo())
-    win.webContents.send('device-list', deviceManager.devices)
+    win.webContents.send('systemInfo', getSystemInfo())
+
+    if (devicesManager.ready) {
+      console.log(devicesManager.devices);
+      win.webContents.send('deviceList', devicesManager.getDisplayDeviceInfos())
+    }
+    else {
+      devicesManager.on('ready', () => {
+        console.log(devicesManager.devices);
+        win.webContents.send('deviceList', devicesManager.getDisplayDeviceInfos())
+      })
+    }
+
+    devicesManager.on('addDevice', d => {
+      console.log('add device: ', d.deviceInfo);
+      d.on('connect', ()=> {
+        win.webContents.send('deviceList', devicesManager.getDisplayDeviceInfos())
+        d.register('logger/on')
+      })
+      d.on('message', msg => {
+        console.log('device message: ', msg);
+      })
+    })
+    devicesManager.on('error', err => {
+      console.log('DevicesManager error: ', err)
+      win.webContents.send('error', err)
+    })
   })
   // win.loadURL(url.format({
   //   pathname: path.join(__dirname, 'index.html'),

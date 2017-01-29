@@ -2,5 +2,11 @@
   "presets": [
     "react",
     "latest"
-  ]
+  ],
+  "plugins": [
+    ["import", {
+      "libraryName": "antd",
+      "style": "css"
+      }]
+    ]
 }
