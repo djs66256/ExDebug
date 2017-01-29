@@ -8,7 +8,8 @@ const Copy = require('copy-webpack-plugin')
 module.exports = {
     entry: {
       index:'./lib/index/index.js',
-      terminal:'./lib/terminal/index.js'
+      terminal:'./lib/terminal/index.js',
+      device: './lib/device/index.js'
     },
     output: {
         path: './app/dist',
