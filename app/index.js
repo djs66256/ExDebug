@@ -106,42 +106,6 @@ console.log('ipc request device: ', devicesManager.devices, device);
   }
 })
 
-// ipcMain.on('open-terminal', (sender, aDevice) => {
-//   console.log('device: ', aDevice);
-//   let device = deviceManager.findDeviceById(aDevice.id)
-//   if (!device) {
-//     console.error('Cannot find a device by ', aDevice.id);
-//     return
-//   }
-//   console.log('open-terminal ', device.id);
-//   let win = appHelper.createChildWindowWithFile('terminal.html', device.id)
-//   device.win = win
-//
-//   win.webContents.on('did-finish-load', function() {
-//     win.webContents.send('device-info', device)
-//   })
-//
-//   win.dataListener = function(data) {
-//     win.webContents.send('device-receive-data', data)
-//   }
-//   device.on('data', win.dataListener)
-//
-//   win.on('close', function() {
-//     console.log('close', win.dataListener);
-//     device.removeListener('data', win.dataListener)
-//     // appHelper.removeChildWindow(win)
-//   })
-//
-// })
-
-// ipcMain.on('device-send-data', (sender, {device, data}) => {
-//   console.log('device-send-data ', data.toString());
-//   let deviceObj = deviceManager.findDeviceById(device.id)
-//   if (deviceObj) {
-//     deviceObj.send(data+'\n')
-//   }
-// })
-
 function getSystemInfo() {
   let netInfos = os.networkInterfaces()
   let arr = []
