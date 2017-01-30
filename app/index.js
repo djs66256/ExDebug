@@ -46,13 +46,11 @@ app.on('ready', () => {
         win.webContents.send('deviceList', devicesManager.getDisplayDeviceInfos())
         d.request('logger/on')
       })
-      d.on('message', msg => {
-        console.log('device message: ', msg);
+      d.on('register', msg => {
+        console.log('device register message: ', msg);
         const dwin = BrowserWindow.getAllWindows().find(w=>w.deviceId === d.deviceInfo.deviceId)
         if (dwin) {
-          if (msg.type === MessageTypeRegister) {
-            dwin.webContents.send('register', {response: msg})
-          }
+          dwin.webContents.send('register', {response: msg})
         }
       })
     })
@@ -80,12 +78,30 @@ ipcMain.on('open', (sender, deviceId) => {
     else {
       dwin = new BrowserWindow({width: 800, height: 600})
       dwin.deviceId = deviceId
+      dwin.webContents.deviceId = deviceId
       const deviceUrl = url.format({
         pathname: path.join(__dirname, 'device.html'),
         protocol: 'file:',
         slashes: true
       })
       dwin.loadURL(deviceUrl)
+    }
+  }
+})
+
+ipcMain.on('request', (event, req) => {
+  let deviceId = event.sender.deviceId
+  if (deviceId && deviceId !== 0) {
+    let device = devicesManager.devices.find(d=>d.deviceInfo.deviceId === deviceId)
+console.log('ipc request device: ', devicesManager.devices, device);
+    if (device) {
+      let id = req.id
+      device.requestMessage(req, (error, msg) => {
+        event.sender.send('request', {
+          response: msg && Object.assign({}, msg, {id}),
+          error
+        })
+      })
     }
   }
 })
