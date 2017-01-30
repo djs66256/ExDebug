@@ -12,6 +12,7 @@ const url = require('url')
 const UUID = require('uuid/v4')
 const os = require('os')
 const {devicesManager} = require('./server')
+const {MessageTypeRequest, MessageTypeRegister} = require('sock-ipc')
 
 // let win
 app.on('ready', () => {
@@ -43,13 +44,15 @@ app.on('ready', () => {
       console.log('add device: ', d.deviceInfo);
       d.on('connect', ()=> {
         win.webContents.send('deviceList', devicesManager.getDisplayDeviceInfos())
-        d.register('logger/on')
+        d.request('logger/on')
       })
       d.on('message', msg => {
         console.log('device message: ', msg);
         const dwin = BrowserWindow.getAllWindows().find(w=>w.deviceId === d.deviceInfo.deviceId)
         if (dwin) {
-          dwin.webContents.send(msg.path, msg.body)
+          if (msg.type === MessageTypeRegister) {
+            dwin.webContents.send('register', {response: msg})
+          }
         }
       })
     })
