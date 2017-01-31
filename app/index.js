@@ -12,8 +12,16 @@ const url = require('url')
 const UUID = require('uuid/v4')
 const os = require('os')
 //const {devicesManager} = require('./server')
-const {RequestManager, MessageTypeRequest, MessageTypeRegister} = require('sock-ipc')
+const {RequestManager, ProxyServer, MessageTypeRequest, MessageTypeRegister} = require('sock-ipc')
 let requestManager = new RequestManager()
+let proxyManager = new ProxyServer({requestManager})
+
+requestManager.on('ready', () => {
+  setTimeout(function () {
+    proxyManager.start()
+  }, 100);
+})
+
 
 // let win
 app.on('ready', () => {
@@ -30,29 +38,29 @@ app.on('ready', () => {
   win.webContents.on('did-finish-load', function() {
     win.webContents.send('systemInfo', getSystemInfo())
 
-    requestManager.on('connect', ()=>{
-      win.webContents.send('deviceList', requestManager.devicesManager.getDisplayDeviceInfos())
-    })
-    requestManager.on('disconnect', ()=>{
-      win.webContents.send('deviceList', requestManager.devicesManager.getDisplayDeviceInfos())
-    })
-    requestManager.on('register', ({deviceId, message}) => {
-      const dwin = BrowserWindow.getAllWindows().find(w=>w.deviceId === deviceId)
-      if (dwin) {
-        dwin.webContents.send('register', {response: msg})
-      }
-    })
-
-    if (requestManager.devicesManager.ready) {
-      console.log(requestManager.devicesManager.devices);
-      win.webContents.send('deviceList', requestManager.devicesManager.getDisplayDeviceInfos())
-    }
-    else {
-      requestManager.devicesManager.on('ready', () => {
-        console.log(requestManager.devicesManager.devices);
-        win.webContents.send('deviceList', requestManager.devicesManager.getDisplayDeviceInfos())
-      })
-    }
+    // requestManager.on('connect', ()=>{
+    //   win.webContents.send('deviceList', requestManager.devicesManager.getDisplayDeviceInfos())
+    // })
+    // requestManager.on('disconnect', ()=>{
+    //   win.webContents.send('deviceList', requestManager.devicesManager.getDisplayDeviceInfos())
+    // })
+    // requestManager.on('register', ({deviceId, message}) => {
+    //   const dwin = BrowserWindow.getAllWindows().find(w=>w.deviceId === deviceId)
+    //   if (dwin) {
+    //     dwin.webContents.send('register', {response: message})
+    //   }
+    // })
+    //
+    // if (requestManager.devicesManager.ready) {
+    //   console.log(requestManager.devicesManager.devices);
+    //   win.webContents.send('deviceList', requestManager.devicesManager.getDisplayDeviceInfos())
+    // }
+    // else {
+    //   requestManager.devicesManager.on('ready', () => {
+    //     console.log(requestManager.devicesManager.devices);
+    //     win.webContents.send('deviceList', requestManager.devicesManager.getDisplayDeviceInfos())
+    //   })
+    // }
 /*
     devicesManager.on('addDevice', d => {
       console.log('add device: ', d.deviceInfo);
@@ -113,20 +121,20 @@ ipcMain.on('request', (event, req) => {
       error
     })
   })
-  /*
-  if (deviceId && deviceId !== 0) {
-    let device = devicesManager.devices.find(d=>d.deviceInfo.deviceId === deviceId)
-// console.log('ipc request device: ', devicesManager.devices, device);
-    if (device) {
-      let id = req.id
-      device.requestMessage(req, (error, msg) => {
-        event.sender.send('request', {
-          response: msg && Object.assign({}, msg, {id}),
-          error
-        })
-      })
+})
+
+requestManager.on('register', ({deviceId, message}) => {
+  if (deviceId && deviceId != 0) {
+    const dwin = BrowserWindow.getAllWindows().find(w=>w.deviceId === deviceId)
+    if (dwin) {
+      dwin.webContents.send('register', {response: message})
     }
-  }*/
+  }
+  else {
+    BrowserWindow.getAllWindows().forEach(w=>{
+      w.webContents.send('register', {response: message})
+    })
+  }
 })
 
 function getSystemInfo() {
