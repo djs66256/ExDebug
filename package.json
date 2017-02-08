@@ -1,5 +1,5 @@
 {
-  "name": "dd-stat",
+  "name": "Rose",
   "version": "1.0.0",
   "description": "",
   "main": "./app/index.js",
@@ -12,8 +12,7 @@
   "author": "Daniel",
   "license": "MIT",
   "dependencies": {
-    "uuid": "",
-    "sock-ipc": ""
+    "uuid": ""
   },
   "devDependencies": {
     "antd": "^2.6.4",
