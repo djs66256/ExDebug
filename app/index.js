@@ -79,6 +79,7 @@ ipcMain.on('request', (event, req) => {
   let id = req.id
   requestManager.request(req, deviceId, (error, msg) => {
     event.sender.send('request', {
+      request: req,
       response: msg && Object.assign({}, msg, {id}),
       error
     })
