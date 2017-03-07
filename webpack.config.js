@@ -9,7 +9,8 @@ module.exports = {
     entry: {
       index:'./lib/index/index.js',
       terminal:'./lib/terminal/index.js',
-      device: './lib/device/index.js'
+      device: './lib/device/index.js',
+      request_analysis: './lib/request_analysis/index.js'
     },
     output: {
         path: './app/dist',
