@@ -1,0 +1,17 @@
+source 'https://g.hz.netease.com/CocoaPods/Specs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+
+platform :ios, '8.0'
+project 'MoreDebug.xcodeproj'
+
+#use_frameworks!
+
+target 'MoreDebug' do
+
+  pod 'DDMoreDebug', :path=>'..'
+  #pod 'MZHotfix'
+  #pod 'BlocksKit'
+  pod 'SAMKeychain'
+
+end

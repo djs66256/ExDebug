@@ -1,0 +1,30 @@
+PODS:
+  - CocoaLumberjack (2.3.0):
+    - CocoaLumberjack/Default (= 2.3.0)
+    - CocoaLumberjack/Extensions (= 2.3.0)
+  - CocoaLumberjack/Core (2.3.0)
+  - CocoaLumberjack/Default (2.3.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.3.0):
+    - CocoaLumberjack/Default
+  - DDMoreDebug (0.0.3):
+    - CocoaLumberjack (~> 2.3.0)
+    - SAMKeychain
+  - SAMKeychain (1.5.2)
+
+DEPENDENCIES:
+  - DDMoreDebug (from `..`)
+  - SAMKeychain
+
+EXTERNAL SOURCES:
+  DDMoreDebug:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
+  DDMoreDebug: 0ef1816f068b6717e9acb2f7d7519f3efb94106a
+  SAMKeychain: 1865333198217411f35327e8da61b43de79b635b
+
+PODFILE CHECKSUM: 353449260f215c096f667b556d265e0ad689a90e
+
+COCOAPODS: 1.2.0
