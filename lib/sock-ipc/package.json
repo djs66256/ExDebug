@@ -1,0 +1,16 @@
+{
+  "name": "sock-ipc",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "node test.js",
+    "server": "node server.js",
+    "client": "node client.js"
+  },
+  "author": "Daniel",
+  "license": "MIT",
+  "devDependencies": {
+  }
+}
