@@ -1,4 +1,3 @@
-source 'https://g.hz.netease.com/CocoaPods/Specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 
@@ -10,8 +9,6 @@ project 'MoreDebug.xcodeproj'
 target 'MoreDebug' do
 
   pod 'DDMoreDebug', :path=>'..'
-  #pod 'MZHotfix'
-  #pod 'BlocksKit'
   pod 'SAMKeychain'
 
 end
