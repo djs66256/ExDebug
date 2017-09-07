@@ -7,8 +7,6 @@ project 'MoreDebug.xcodeproj'
 target 'MoreDebug' do
 
   pod 'DDMoreDebug', :path=>'..'
-  #pod 'MZHotfix'
-  #pod 'BlocksKit'
   pod 'SAMKeychain'
 
 end
