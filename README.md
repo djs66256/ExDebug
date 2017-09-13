@@ -1,6 +1,10 @@
 
 ![log](./images/home.png?raw=true)
 
+## 中文介绍
+
+[中文介绍](http://djs66256.github.io/2017/04/17/2017-04-18-%E7%96%AF%E7%8B%82%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F/)
+
 ## Environments:
 
     node, electron, webpack
