@@ -1,6 +1,6 @@
-const {Server} = require('sock-ipc')
+const {Server} = require('../lib/sock-ipc')
 const {ipcMain} = require('electron')
-const {DevicesManager} = require('sock-ipc')
+const {DevicesManager} = require('../lib/sock-ipc')
 
 let devicesManager = new DevicesManager()
 devicesManager.loadFromLocal()

@@ -1,4 +1,4 @@
-const {setBasedir} = require('sock-ipc')
+const {setBasedir} = require('../lib/sock-ipc')
 
 // let userdir = app.getPath('userData')
 // console.log('UserData Dir: ', userdir);
@@ -12,7 +12,7 @@ const url = require('url')
 const UUID = require('uuid/v4')
 const os = require('os')
 //const {devicesManager} = require('./server')
-const {RequestManager, AppClient, ProxyServer, MessageTypeRequest, MessageTypeRegister} = require('sock-ipc')
+const {RequestManager, AppClient, ProxyServer, MessageTypeRequest, MessageTypeRegister} = require('../lib/sock-ipc')
 
 let requestManager = new RequestManager()
 let proxyManager = new ProxyServer({requestManager})

@@ -7,13 +7,13 @@ const Copy = require('copy-webpack-plugin')
 
 module.exports = {
     entry: {
-      index:'./lib/index/index.js',
-      terminal:'./lib/terminal/index.js',
-      device: './lib/device/index.js',
-      request_analysis: './lib/request_analysis/index.js'
+      index: path.join(__dirname, 'lib/index/index.js'),
+      terminal: path.join(__dirname, 'lib/terminal/index.js'),
+      device: path.join(__dirname, 'lib/device/index.js'),
+      request_analysis: path.join(__dirname, 'lib/request_analysis/index.js')
     },
     output: {
-        path: './app/dist',
+        path: path.join(__dirname, 'app/dist'),
         filename: '[name].js'
     },
     module: {
