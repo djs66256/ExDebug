@@ -113,22 +113,28 @@
 }
 
 - (void)receiveMessage:(DDDebugSocketMessage *)message {
-    for (DDDebugSocketService *service in _services) {
-        if ([service validateMessage:message]) {
-            [service receiveMessage:message];
+    @synchronized (_services) {
+        for (DDDebugSocketService *service in _services) {
+            if ([service validateMessage:message]) {
+                [service receiveMessage:message];
+            }
         }
     }
 }
 
 - (void)debugSocketClientDidConnectToServer:(DDDebugSocketClient *)client {
-    for (DDDebugSocketService *service in _services) {
-        [service didConnectToServer];
+    @synchronized (_services) {
+        for (DDDebugSocketService *service in _services) {
+            [service didConnectToServer];
+        }
     }
 }
 
 - (void)debugSocketClientDidDisconnectToServer:(DDDebugSocketClient *)client {
-    for (DDDebugSocketService *service in _services) {
-        [service didDisconnectToServer];
+    @synchronized (_services) {
+        for (DDDebugSocketService *service in _services) {
+            [service didDisconnectToServer];
+        }
     }
 }
 
